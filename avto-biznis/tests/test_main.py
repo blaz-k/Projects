@@ -47,4 +47,4 @@ def test_registration_page(client):
 # log-in tests:
 def test_login_page(client):
     response = client.get("/login")
-    assert b"login" in response.data
+    assert b"Remember me" in response.data
