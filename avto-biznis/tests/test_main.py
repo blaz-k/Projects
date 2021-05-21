@@ -25,7 +25,7 @@ def cleanup():
 # homepage tests:
 def test_home_page(client):
     response = client.get("/")
-
+    assert b"homepage" in response.data
 # about us test:
 # registration tests:
 # log-in tests:
