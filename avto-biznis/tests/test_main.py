@@ -22,10 +22,29 @@ def cleanup():
     # clean up/delete the DB (drop all tables in the database)
     db.drop_all()
 
+
+# tests in alphabetical order
+
+
+# about test:
+def test_about_page(client):
+    response = client.get("/about")
+    assert b"about us" in response.data
+
+
 # homepage tests:
 def test_home_page(client):
     response = client.get("/")
     assert b"homepage" in response.data
-# about us test:
+
+
 # registration tests:
+def test_registration_page(client):
+    response = client.get("/registration")
+    assert b"registration" in response.data
+
+
 # log-in tests:
+def test_login_page(client):
+    response = client.get("/login")
+    assert b"login" in response.data
