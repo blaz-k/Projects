@@ -38,13 +38,19 @@ def test_home_page(client):
     assert b"homepage" in response.data
 
 
+# log-in tests:
+def test_login_page(client):
+    response = client.get("/login")
+    assert b"Remember me" in response.data
+
+
 # registration tests:
 def test_registration_page(client):
     response = client.get("/registration")
     assert b"registration" in response.data
 
 
-# log-in tests:
-def test_login_page(client):
-    response = client.get("/login")
-    assert b"Remember me" in response.data
+# dashboard tests:
+def test_dashboard_page(client):
+    response = client.get("/dashboard")
+    assert b"Dashboard" in response.data

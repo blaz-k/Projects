@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from sqla_wrapper import SQLAlchemy
 
 
@@ -7,12 +7,21 @@ db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://",
 db = SQLAlchemy(db_url)
 
 
-#class User
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=True)
+    first_name = db.Column(db.String, unique=False)
+    last_name = db.Column(db.String, unique=False)
+    country = db.Column(db.String, unique=False)
+    postal_code = db.Column(db.Integer, unique=False)
+    email = db.Column(db.String, unique=True)
+    phone_number = db.Column(db.Integer, unique=True)
+    password = db.Column(db.String, unique=False)
 
 
 app = Flask(__name__)
 
-#db.create_all()
+db.create_all()
 
 # in alphabetical order
 
@@ -40,11 +49,34 @@ def login():
 def registration():
     if request.method == "GET":
         return render_template("registration.html")
-   # elif request.method == "POST":
-#dobi vse podatke iz baze
-#ce user ne obstaja naredimo novega. check in base
-#check if password == repeat
+    elif request.method == "POST":
+# dobi vse podatke iz baze
+        username = request.form.get("username")
+        first_name = request.form.get("first-name")
+        last_name = request.form.get("last-name")
+        country = request.form.get("country")
+        postal_code = request.form.get("postal-code")
+        email = request.form.get("user-email")
+        phone_number = request.form.get("telephone")
+        password = request.form.get("password")
+        repeat = request.form.get("repeat")
+# ce user ne obstaja naredimo novega. check in base
+        existing_user = db.query(User).filter_by(username=username).first()
 
+        if existing_user:
+            return "ERROR: This username already exist! You need to choose something else."
+        else:
+# check if password == repeat
+            if password == repeat:
+                new_user =User(username=username, first_name=first_name, last_name=last_name,
+                               country=country, postal_code=postal_code, email=email,
+                               phone_number=phone_number, password=password)
+                new_user.save()
+                return "Your registration was successfull."
+            else:
+                return "ERROR: Passwords do not match!"
+
+    return redirect(url_for("home"))
 
 
 if __name__ == "__main__":
