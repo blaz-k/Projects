@@ -1,7 +1,8 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for
 from sqla_wrapper import SQLAlchemy
-
+from hashlib import sha256
+import uuid
 
 db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://", "postgresql://", 1)
 db = SQLAlchemy(db_url)
@@ -22,6 +23,7 @@ class User(db.Model):
 app = Flask(__name__)
 
 db.create_all()
+
 
 # in alphabetical order
 
@@ -50,7 +52,7 @@ def registration():
     if request.method == "GET":
         return render_template("registration.html")
     elif request.method == "POST":
-# dobi vse podatke iz baze
+        # dobi vse podatke iz baze
         username = request.form.get("username")
         first_name = request.form.get("first-name")
         last_name = request.form.get("last-name")
@@ -60,19 +62,21 @@ def registration():
         phone_number = request.form.get("telephone")
         password = request.form.get("password")
         repeat = request.form.get("repeat")
-# ce user ne obstaja naredimo novega. check in base
+        # ce user ne obstaja naredimo novega. check in base
         existing_user = db.query(User).filter_by(username=username).first()
 
         if existing_user:
             return "ERROR: This username already exist! You need to choose something else."
         else:
-# check if password == repeat
+            # check if password == repeat
             if password == repeat:
-                new_user =User(username=username, first_name=first_name, last_name=last_name,
-                               country=country, postal_code=postal_code, email=email,
-                               phone_number=phone_number, password=password)
+                # camouflage password
+                password_hash = sha256(password.encode("utf-8")).hexdigest()
+                new_user = User(username=username, first_name=first_name, last_name=last_name,
+                                country=country, postal_code=postal_code, email=email,
+                                phone_number=phone_number, password=password_hash)
                 new_user.save()
-                return "Your registration was successfull."
+                return "Your registration was successful."
             else:
                 return "ERROR: Passwords do not match!"
 
