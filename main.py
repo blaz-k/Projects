@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response
 from sqla_wrapper import SQLAlchemy
 from hashlib import sha256
 import uuid
@@ -18,6 +18,7 @@ class User(db.Model):
     email = db.Column(db.String, unique=True)
     phone_number = db.Column(db.Integer, unique=True)
     password = db.Column(db.String, unique=False)
+    session_token = db.Column(db.String, unique=False)
 
 
 app = Flask(__name__)
@@ -42,9 +43,32 @@ def home():
     return render_template("index.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if request.method == "GET":
+        return render_template("login.html")
+# get username and password
+    elif request.method == "POST":
+        username = request.form.get("username")
+
+        password = request.form.get("password")
+# check for password hash
+        password_hash = sha256(password.encode("utf-8")).hexdigest()
+# check if username exists
+        existing_user = db.query(User).filter_by(username=username, password=password_hash).first()
+# if it does exists than give him session token and set cookie
+        if existing_user:
+            session_token = str(uuid.uuid4())
+            existing_user.session_token = session_token
+            existing_user.save()
+
+            response = make_response(redirect(url_for("dashboard")))
+            response.set_cookie("session", session_token)
+            return response
+        else:
+            return "ERROR: Password or username is not correct!"
+    return redirect(url_for("home"))
+
 
 
 @app.route("/registration", methods=["GET", "POST"])
@@ -75,6 +99,7 @@ def registration():
                 new_user = User(username=username, first_name=first_name, last_name=last_name,
                                 country=country, postal_code=postal_code, email=email,
                                 phone_number=phone_number, password=password_hash)
+                print("password hash {}".format(password_hash))
                 new_user.save()
                 return "Your registration was successful."
             else:
