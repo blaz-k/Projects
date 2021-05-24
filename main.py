@@ -33,9 +33,15 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/dashboard")
+@app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    return render_template("dashboard.html")
+    session_cookie = request.cookies.get("session")
+    if session_cookie:
+        user = db.query(User).filter_by(session_token=session_cookie).first()
+        if user:
+            return render_template("dashboard.html", user=user)
+
+    return "ERROR: You are not logged in! Please logg in to see contents of this page!"
 
 
 @app.route("/")
@@ -67,7 +73,7 @@ def login():
             return response
         else:
             return "ERROR: Password or username is not correct!"
-    return redirect(url_for("home"))
+    return redirect(url_for("dashboard"))
 
 
 
