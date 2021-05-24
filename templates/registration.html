@@ -1,29 +1,54 @@
 {% extends "base.html" %}
 
 
+{% block link %}
+    <link href="/static/css/registration.css" rel="stylesheet">
+{% endblock link %}
+
 
 
 {% block content %}
-    <h2>registration</h2>
-    <div class="input-group">
-      <span class="input-group-text">First and last name</span>
-      <input type="text" aria-label="First name" class="form-control">
-      <input type="text" aria-label="Last name" class="form-control">
-    </div>
-    <div class="form-floating mb-3">
-      <input type="email" class="form-control" id="" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
-    <div class="form-floating mb-3">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-      <label for="floatingInput">Email address</label>
-    </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-      <label for="floatingPassword">Password</label>
-    </div>
+
+<form method="post" action="/registration">
+    <main class="form-registration text-center" >
+        <h2>Registration</h2>
+        <div class="form-floating mb-3" >
+          <input type="text" class="form-control" id="floatingUsername" placeholder="Username">
+          <label for="floatingUsername">Username</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="name" class="form-control" id="floatingFirstname" placeholder="Firstname">
+          <label for="floatingFirstname">First name</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="name" class="form-control" id="floatingLastname" placeholder="Last name">
+          <label for="floatingLastname">Last name</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="name" class="form-control" id="floatingCountry" placeholder="Country">
+          <label for="floatingCountry">Country</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="number" class="form-control" id="floatingPostal" placeholder="Postal code">
+          <label for="floatingPostal">Postal code</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingEmail" placeholder="Email">
+          <label for="floatingEmail">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="tel" class="form-control" id="floatingTelephone" placeholder="Telephone number">
+          <label for="floatingTelephone">Telephone number</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="floatingRepeat" placeholder="Password">
+          <label for="floatingRepeat">Repeat password</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    </main>
+</form>
 {% endblock content %}
