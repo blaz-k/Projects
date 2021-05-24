@@ -1,0 +1,56 @@
+{% extends "base-log-in.html" %}
+
+<!--DO A FORM WHEN YOU CAN PUT BASIC STUFF ABOUT A CAR AND YOU CAN ALSO PUT UP ONE PICTURE OF A CAR. THEN IT ALL GOES TO HOMEPAGE--->
+
+{% block title %}POST CAR{% endblock title %}
+
+
+{% block content %}
+
+<h2>I want to sell a car:</h2>
+
+
+<form action="/registration" method="post" >
+    <main class="form-registration text-center" >
+        <h2>Fill in the form!</h2>
+        <div class="form-floating mb-3" >
+          <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username">
+          <label for="floatingUsername">Brand</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="date" name="first-name" class="form-control" id="floatingFirstname" placeholder="Firstname">
+          <label for="floatingFirstname">Date of manufacture</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="number" name="last-name" class="form-control" id="floatingLastname" placeholder="Last name">
+          <label for="floatingLastname">Kilometers</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="number" name="country" class="form-control" id="floatingCountry" placeholder="Country">
+          <label for="floatingCountry">Horsepower</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" name="postal-code" class="form-control" id="floatingPostal" placeholder="Postal code">
+          <label for="floatingPostal">Transmission</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="email" name="user-email" class="form-control" id="floatingEmail" placeholder="Email">
+          <label for="floatingEmail">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="tel" name="telephone" class="form-control" id="floatingTelephone" placeholder="Telephone number">
+          <label for="floatingTelephone">Telephone number</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Color</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="text" name="repeat" class="form-control" id="floatingRepeat" placeholder="Password">
+          <label for="floatingRepeat">Price</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+    </main>
+</form>
+
+{% endblock content %}

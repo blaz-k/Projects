@@ -76,6 +76,10 @@ def login():
     return redirect(url_for("dashboard"))
 
 
+@app.route("/dashboard/post-car")
+def post_car():
+    return render_template("post-car.html")
+
 
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
