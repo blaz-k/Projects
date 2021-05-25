@@ -117,7 +117,6 @@ def logout():
 
 @app.route("/dashboard/post-car", methods=["GET", "POST"])
 def post_car():
-    global new_add
     if request.method == "GET":
         return render_template("post-car.html")
     elif request.method == "POST":
@@ -142,15 +141,15 @@ def post_car():
                                 transmission=transmission, email=email, telephone=telephone,
                                 color=color, price=price)
                 new_add.save()
-            print("password brand {}".format(brand))
-            print("password date {}".format(date))
-            print("password km {}".format(kilometers))
-            print("password horsepower {}".format(horsepower))
-            print("password transmission {}".format(transmission))
-            print("password email {}".format(email))
-            print("password telephone {}".format(telephone))
-            print("password color {}".format(color))
-            print("password price {}".format(price))
+            print("car brand {}".format(brand))
+            print("car date {}".format(date))
+            print("car km {}".format(kilometers))
+            print("car horsepower {}".format(horsepower))
+            print("car transmission {}".format(transmission))
+            print("car email {}".format(email))
+            print("car telephone {}".format(telephone))
+            print("car color {}".format(color))
+            print("car price {}".format(price))
 
             return "Your post was successful"
         else:
