@@ -21,6 +21,20 @@ class User(db.Model):
     session_token = db.Column(db.String, unique=False)
 
 
+class CarAd(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String, unique=True)
+    brand = db.Column(db.String, unique=False)
+    date = db.Column(db.String, unique=False)
+    kilometers = db.Column(db.Integer, unique=False)
+    horsepower = db.Column(db.Integer, unique=False)
+    transmission = db.Column(db.String, unique=False)
+    email = db.Column(db.String, unique=True)
+    telephone = db.Column(db.Integer, unique=True)
+    color = db.Column(db.String, unique=False)
+    price = db.Column(db.Integer, unique=False)
+
+
 app = Flask(__name__)
 
 db.create_all()
@@ -68,16 +82,16 @@ def home():
 def login():
     if request.method == "GET":
         return render_template("login.html")
-# get username and password
+    # get username and password
     elif request.method == "POST":
         username = request.form.get("username")
 
         password = request.form.get("password")
-# check for password hash
+        # check for password hash
         password_hash = sha256(password.encode("utf-8")).hexdigest()
-# check if username exists
+        # check if username exists
         existing_user = db.query(User).filter_by(username=username, password=password_hash).first()
-# if it does exists than give him session token and set cookie
+        # if it does exists than give him session token and set cookie
         if existing_user:
             session_token = str(uuid.uuid4())
             existing_user.session_token = session_token
@@ -101,9 +115,46 @@ def logout():
     return redirect(url_for("login"))
 
 
-@app.route("/dashboard/post-car")
+@app.route("/dashboard/post-car", methods=["GET", "POST"])
 def post_car():
-    return render_template("post-car.html")
+    global new_add
+    if request.method == "GET":
+        return render_template("post-car.html")
+    elif request.method == "POST":
+        # mors dobit vse podatke vn
+        username = request.form.get("username")
+        brand = request.form.get("brand")
+        date = request.form.get("date")
+        kilometers = request.form.get("kilometers")
+        horsepower = request.form.get("horsepower")
+        transmission = request.form.get("transmission")
+        email = request.form.get("email")
+        telephone = request.form.get("telephone")
+        color = request.form.get("color")
+        price = request.form.get("price")
+
+        session_cookie = request.cookies.get("session")
+        if session_cookie:
+            user = db.query(User).filter_by(session_token=session_cookie).first()
+            username = db.query(User).filter_by(username=username).first()
+            if user == username:
+                new_add = CarAd(brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
+                                transmission=transmission, email=email, telephone=telephone,
+                                color=color, price=price)
+                new_add.save()
+            print("password brand {}".format(brand))
+            print("password date {}".format(date))
+            print("password km {}".format(kilometers))
+            print("password horsepower {}".format(horsepower))
+            print("password transmission {}".format(transmission))
+            print("password email {}".format(email))
+            print("password telephone {}".format(telephone))
+            print("password color {}".format(color))
+            print("password price {}".format(price))
+
+            return "Your post was successful"
+        else:
+            return "Something went wrong"
 
 
 @app.route("/registration", methods=["GET", "POST"])
