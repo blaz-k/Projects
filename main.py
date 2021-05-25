@@ -135,8 +135,8 @@ def post_car():
         session_cookie = request.cookies.get("session")
         if session_cookie:
             user = db.query(User).filter_by(session_token=session_cookie).first()
-            username = db.query(User).filter_by(username=username).first()
-            if user == username:
+            #username = db.query(User).filter_by(username=username).first()
+            if user:
                 new_add = CarAd(brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
                                 transmission=transmission, email=email, telephone=telephone,
                                 color=color, price=price)
