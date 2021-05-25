@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 from sqla_wrapper import SQLAlchemy
 from hashlib import sha256
 import uuid
+from sqlalchemy_pagination import paginate
 
 db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://", "postgresql://", 1)
 db = SQLAlchemy(db_url)
@@ -75,7 +76,8 @@ def dashboard():
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    messages = db.query(CarAd).all()
+    return render_template("index.html", messages=messages)
 
 
 @app.route("/login", methods=["GET", "POST"])
