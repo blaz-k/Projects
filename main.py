@@ -91,6 +91,16 @@ def login():
     return redirect(url_for("dashboard"))
 
 
+@app.route("/logout", methods=["POST"])
+def logout():
+    session_cookie = request.cookies.get("session")
+    user = db.query(User).filter_by(session_token=session_cookie).first()
+    user.session_token = ""
+    user.save()
+
+    return redirect(url_for("login"))
+
+
 @app.route("/dashboard/post-car")
 def post_car():
     return render_template("post-car.html")
