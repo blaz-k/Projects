@@ -34,7 +34,7 @@ class CarAd(db.Model):
     telephone = db.Column(db.Integer, unique=False)
     color = db.Column(db.String, unique=False)
     price = db.Column(db.Integer, unique=False)
-    #image = db.Column(db.String, unique=False)
+    image = db.Column(db.String, unique=False)
 
 
 app = Flask(__name__)
@@ -47,6 +47,7 @@ db.create_all()
 @app.route("/about")
 def about():
     session_cookie = request.cookies.get("session")
+
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
@@ -57,6 +58,7 @@ def about():
 @app.route("/contact")
 def contact():
     session_cookie = request.cookies.get("session")
+
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
@@ -67,6 +69,7 @@ def contact():
 @app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
     session_cookie = request.cookies.get("session")
+
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
@@ -85,15 +88,17 @@ def home():
 def login():
     if request.method == "GET":
         return render_template("login.html")
-    # get username and password
-    elif request.method == "POST":
-        username = request.form.get("username")
 
+    elif request.method == "POST":
+        # get username and password
+        username = request.form.get("username")
         password = request.form.get("password")
+
         # check for password hash
         password_hash = sha256(password.encode("utf-8")).hexdigest()
         # check if username exists
         existing_user = db.query(User).filter_by(username=username, password=password_hash).first()
+
         # if it does exists than give him session token and set cookie
         if existing_user:
             session_token = str(uuid.uuid4())
@@ -121,7 +126,15 @@ def logout():
 @app.route("/dashboard/post-car", methods=["GET", "POST"])
 def post_car():
     if request.method == "GET":
-        return render_template("post-car.html")
+        session_cookie = request.cookies.get("session")
+
+        if session_cookie:
+            user = db.query(User).filter_by(session_token=session_cookie).first()
+            if user:
+                return render_template("post-car.html")
+
+        return "ERROR: You are not logged in! Please logg in to see contents of this page!"
+
     elif request.method == "POST":
         # mors dobit vse podatke vn
         brand = request.form.get("brand")
@@ -131,7 +144,7 @@ def post_car():
         transmission = request.form.get("transmission")
         color = request.form.get("color")
         price = request.form.get("price")
-        #image = request.form.get("image")
+        image = request.form.get("image")
 
         session_cookie = request.cookies.get("session")
         if session_cookie:
@@ -139,9 +152,8 @@ def post_car():
             if user:
                 new_add = CarAd(username=user.username, brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
                                 transmission=transmission, email=user.email, telephone=user.phone_number,
-                                color=color, price=price)
+                                color=color, price=price, image=image)
                 new_add.save()
-
 
             return "Your post was successful"
         else:
@@ -152,6 +164,7 @@ def post_car():
 def registration():
     if request.method == "GET":
         return render_template("registration.html")
+
     elif request.method == "POST":
         # dobi vse podatke iz baze
         username = request.form.get("username")
@@ -176,8 +189,8 @@ def registration():
                 new_user = User(username=username, first_name=first_name, last_name=last_name,
                                 country=country, postal_code=postal_code, email=email,
                                 phone_number=phone_number, password=password_hash)
-                print("password hash {}".format(password_hash))
                 new_user.save()
+
                 return "Your registration was successful."
             else:
                 return "ERROR: Passwords do not match!"
