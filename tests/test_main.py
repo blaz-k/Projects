@@ -23,8 +23,7 @@ def cleanup():
     db.drop_all()
 
 
-# tests in alphabetical order
-
+# !!!TESTS IN ALPHABETICAL ORDER!!!
 
 # ABOUT TESTS:
 def test_about_page(client):
@@ -34,8 +33,15 @@ def test_about_page(client):
 
 # DASHBOARD TESTS:
 def test_dashboard_page(client):
+    client.post("/registration", data={"username": "b", "password": "b", "repeat": "b"})
+    client.post("/login", data={"username": "b", "password": "b"}, follow_redirects=True)
     response = client.get("/dashboard")
     assert b"Dashboard" in response.data
+
+
+def test_dashboard_page_fail(client):
+    response = client.get("/dashboard")
+    assert b"You are not logged in!" in response.data
 
 
 # HOMEPAGE TEST:
@@ -56,12 +62,32 @@ def test_login_page_post(client):
     response = client.get("/dashboard")
     assert b"Dashboard" in response.data
 
+
 # !!!NEVEM KAKO TO NAREDITI!!!
 def test_login_page_post_fail(client):
     response = client.post("/login", data={"username": "nekaj", "password": "novega"})
     assert b"Password or username is not correct" in response.data
     user = db.query(User).filter_by(username="ne", password="novega").first()
 
+
+# POST CAR TESTS
+def test_post_car_page_get(client):
+    response = client.get("/dashboard/post-car")
+    assert b"I want to sell a car" in response.data
+
+"""
+def test_post_car_page_post(client):
+    client.post("/registration", data={"username": "b", "password": "b", "repeat": "b"})
+    client.post("/login", data={"username": "b", "password": "b", "repeat": "b"})
+
+    client.post("/dashboard/post-car", data={"brand": "ferrari", "date": "25/5/2020", "kilometers": "154", "horsepower": "110",
+                                "transmission": "auto", "email": "b@b.com", "telephone": "123456", "color": "blue",
+                                "price": "123456"},
+                follow_redirects=True)
+
+    response = client.get("/dashboard/post-car")
+    assert b"Your post was successful" in response.data
+"""
 
 # REGISTRATION TESTS:
 def test_registration_page_get(client):
@@ -84,5 +110,3 @@ def test_registration_page_post_fail(client):
 
     user = db.query(User).filter_by(username="b").first()
     assert user is None
-
-

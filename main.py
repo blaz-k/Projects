@@ -24,16 +24,18 @@ class User(db.Model):
 
 class CarAd(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True)
+    username = db.Column(db.String, unique=False)
     brand = db.Column(db.String, unique=False)
     date = db.Column(db.String, unique=False)
     kilometers = db.Column(db.Integer, unique=False)
     horsepower = db.Column(db.Integer, unique=False)
     transmission = db.Column(db.String, unique=False)
-    email = db.Column(db.String, unique=True)
-    telephone = db.Column(db.Integer, unique=True)
+    email = db.Column(db.String, unique=False)
+    telephone = db.Column(db.Integer, unique=False)
     color = db.Column(db.String, unique=False)
     price = db.Column(db.Integer, unique=False)
+    #image = db.Column(db.String(20), nullable=False)
+    #image = db.Column(db.LargeBinary, nullable=True)
 
 
 app = Flask(__name__)
@@ -133,25 +135,19 @@ def post_car():
         telephone = request.form.get("telephone")
         color = request.form.get("color")
         price = request.form.get("price")
+        #image = request.form.get("image")
 
         session_cookie = request.cookies.get("session")
+        username = db.query(User).filter_by(username=username).first()
         if session_cookie:
             user = db.query(User).filter_by(session_token=session_cookie).first()
-            #username = db.query(User).filter_by(username=username).first()
+            username = db.query(User).filter_by(username=username).first()
             if user:
-                new_add = CarAd(brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
+                new_add = CarAd(username=username, brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
                                 transmission=transmission, email=email, telephone=telephone,
                                 color=color, price=price)
                 new_add.save()
-            print("car brand {}".format(brand))
-            print("car date {}".format(date))
-            print("car km {}".format(kilometers))
-            print("car horsepower {}".format(horsepower))
-            print("car transmission {}".format(transmission))
-            print("car email {}".format(email))
-            print("car telephone {}".format(telephone))
-            print("car color {}".format(color))
-            print("car price {}".format(price))
+
 
             return "Your post was successful"
         else:
