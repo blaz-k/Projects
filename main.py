@@ -34,8 +34,7 @@ class CarAd(db.Model):
     telephone = db.Column(db.Integer, unique=False)
     color = db.Column(db.String, unique=False)
     price = db.Column(db.Integer, unique=False)
-    #image = db.Column(db.String(20), nullable=False)
-    #image = db.Column(db.LargeBinary, nullable=True)
+    #image = db.Column(db.String, unique=False)
 
 
 app = Flask(__name__)
