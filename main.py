@@ -78,8 +78,8 @@ def dashboard():
 
 @app.route("/")
 def home():
-    messages = db.query(CarAd).all()
-    return render_template("index.html", messages=messages)
+    ads = db.query(CarAd).all()
+    return render_template("index.html", ads=ads)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -109,7 +109,7 @@ def login():
     return redirect(url_for("dashboard"))
 
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout", methods=["GET"])
 def logout():
     session_cookie = request.cookies.get("session")
     user = db.query(User).filter_by(session_token=session_cookie).first()
@@ -125,26 +125,21 @@ def post_car():
         return render_template("post-car.html")
     elif request.method == "POST":
         # mors dobit vse podatke vn
-        username = request.form.get("username")
         brand = request.form.get("brand")
         date = request.form.get("date")
         kilometers = request.form.get("kilometers")
         horsepower = request.form.get("horsepower")
         transmission = request.form.get("transmission")
-        email = request.form.get("email")
-        telephone = request.form.get("telephone")
         color = request.form.get("color")
         price = request.form.get("price")
         #image = request.form.get("image")
 
         session_cookie = request.cookies.get("session")
-        username = db.query(User).filter_by(username=username).first()
         if session_cookie:
             user = db.query(User).filter_by(session_token=session_cookie).first()
-            username = db.query(User).filter_by(username=username).first()
             if user:
-                new_add = CarAd(username=username, brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
-                                transmission=transmission, email=email, telephone=telephone,
+                new_add = CarAd(username=user.username, brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
+                                transmission=transmission, email=user.email, telephone=user.phone_number,
                                 color=color, price=price)
                 new_add.save()
 
