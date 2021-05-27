@@ -50,6 +50,12 @@ def test_home_page(client):
     assert b"homepage" in response.data
 
 
+# CAR INTEREST TEST:
+def test_interest_page_get(client):
+    response = client.get("/interest")
+    assert b"INTEREST" in response.data
+
+
 # LOG-IN TESTS:
 def test_login_page_get(client):
     response = client.get("/login")
@@ -72,7 +78,10 @@ def test_login_page_post_fail(client):
 
 # POST CAR TESTS
 def test_post_car_page_get(client):
+    client.post("/registration", data={"username": "b", "password": "b", "repeat": "b"})
+    client.post("/login", data={"username": "b", "password": "b", "repeat": "b"})
     response = client.get("/dashboard/post-car")
+
     assert b"I want to sell a car" in response.data
 
 """

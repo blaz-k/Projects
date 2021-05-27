@@ -41,8 +41,8 @@ class CarAdInterest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     interest_name = db.Column(db.String, unique=False)
     interest_surname = db.Column(db.String, unique=False)
-    email = db.Column(db.String, unique=False)
-    telephone = db.Column(db.Integer, unique=False)
+    interest_email = db.Column(db.String, unique=False)
+    interest_telephone = db.Column(db.Integer, unique=False)
 
 
 app = Flask(__name__)
@@ -92,9 +92,21 @@ def home():
     return render_template("index.html", ads=ads)
 
 
-@app.route("/interest")
+@app.route("/interest", methods=["GET", "POST"])
 def interest():
-    return render_template("interest.html")
+    if request.method == "GET":
+        return render_template("interest.html")
+
+    elif request.method == "POST":
+        interest_name = request.form.get("interest-name")
+        interest_surname = request.form.get("interest-surname")
+        interest_email = request.form.get("interest-email")
+        interest_telephone = request.form.get("interest-telephone")
+
+        new_car_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
+                                         interest_email=interest_email, interest_telephone=interest_telephone)
+        new_car_interest.save()
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
