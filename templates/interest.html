@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}INTEREST{% endblock title %}
+
+{% block link %}
+    <link href="/static/css/post-car.css" rel="stylesheet">
+{% endblock link %}
+
+
+{% block content %}
+<form action="/interest" method="post" >
+    <main class="form-registration text-center" >
+        <h2>Fill in the form!</h2>
+        <div class="row d-flex align-items-stretch ">
+            <div class="col-6">
+                <div class="form-floating mb-3" >
+                  <input type="text" name="interest-name" class="form-control" id="floatingName" placeholder="Name">
+                  <label for="floatingName">Your name</label>
+                </div>
+                <div class="form-floating mb-3" >
+                  <input type="text" name="interest-surname" class="form-control" id="floatingSurname" placeholder="Name">
+                  <label for="floatingSurname">Your surname</label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-floating mb-3">
+                  <input type="email" name="interest-email" class="form-control" id="floatingEmail" placeholder="Email">
+                  <label for="floatingEmail">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="tel" name="interest-telephone" class="form-control" id="floatingTelephone" placeholder="Telephone number">
+                  <label for="floatingTelephone">Telephone number</label>
+                </div>
+            </div>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary sub mt-4" type="submit">Submit</button>
+    </main>
+</form>
+{% endblock content %}

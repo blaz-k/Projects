@@ -37,6 +37,14 @@ class CarAd(db.Model):
     image = db.Column(db.String, unique=False)
 
 
+class CarAdInterest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    interest_name = db.Column(db.String, unique=False)
+    interest_surname = db.Column(db.String, unique=False)
+    email = db.Column(db.String, unique=False)
+    telephone = db.Column(db.Integer, unique=False)
+
+
 app = Flask(__name__)
 
 db.create_all()
@@ -83,6 +91,10 @@ def home():
     ads = db.query(CarAd).all()
     return render_template("index.html", ads=ads)
 
+
+@app.route("/interest")
+def interest():
+    return render_template("interest.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
