@@ -102,10 +102,15 @@ def interest():
         interest_surname = request.form.get("interest-surname")
         interest_email = request.form.get("interest-email")
         interest_telephone = request.form.get("interest-telephone")
+        print("interest name {}".format(interest_name))
+        print("interest surname {}".format(interest_surname))
+        print("interest email {}".format(interest_email))
+        print("interest telephone {}".format(interest_telephone))
 
-        new_car_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
+        new_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
                                          interest_email=interest_email, interest_telephone=interest_telephone)
-        new_car_interest.save()
+        new_interest.save()
+    return "Your interest has been sent successfully"
 
 
 @app.route("/login", methods=["GET", "POST"])
