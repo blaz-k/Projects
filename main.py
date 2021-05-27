@@ -83,7 +83,7 @@ def dashboard():
         if user:
             return render_template("dashboard.html", user=user)
 
-    return "ERROR: You are not logged in! Please logg in to see contents of this page!"
+    return render_template("error.html")
 
 
 @app.route("/")
@@ -157,7 +157,7 @@ def post_car():
             if user:
                 return render_template("post-car.html")
 
-        return "ERROR: You are not logged in! Please logg in to see contents of this page!"
+        return render_template("error.html")
 
     elif request.method == "POST":
         # mors dobit vse podatke vn
