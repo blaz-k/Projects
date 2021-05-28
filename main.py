@@ -39,7 +39,7 @@ class CarAd(db.Model):
 
 class CarAdInterest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #ad_id je cardda.id
+    #ad_id je carad.id
     ad_id = CarAd.id
     #seller id = user.id
     seller_id = User.id
@@ -138,10 +138,12 @@ def home():
     return render_template("index.html", ads=ads)
 
 
-@app.route("/interest", methods=["GET", "POST"])
-def interest():
+@app.route("/interest/<ad_id>", methods=["GET", "POST"])
+def interest(ad_id):
     if request.method == "GET":
-        return render_template("interest.html")
+        ad = db.query(CarAd).get(int(ad_id))
+
+        return render_template("interest.html", ad=ad)
 
     elif request.method == "POST":
         interest_name = request.form.get("interest-name")
@@ -226,7 +228,7 @@ def post_car():
                                 color=color, price=price, image=image)
                 new_add.save()
 
-            return "Your post was successful"
+            return render_template("post-successful.html")
         else:
             return "Something went wrong"
 
@@ -262,7 +264,7 @@ def registration():
                                 phone_number=phone_number, password=password_hash)
                 new_user.save()
 
-                return "Your registration was successful."
+                return render_template("successful.html")
             else:
                 return "ERROR: Passwords do not match!"
 
