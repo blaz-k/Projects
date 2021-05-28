@@ -7,9 +7,15 @@
 {% endblock link %}
 
 
+
 {% block content %}
-<form action="/interest" method="post" >
-    <main class="form-registration text-center" >
+
+<div>
+    <img src="{{ad.image}}" width="350px">
+</div>
+
+<form action="/ad/{{ad.id}}" method="post" >
+    <main class="form-registration text-center mt-4" >
         <h2>Fill in the form!</h2>
         <div class="row d-flex align-items-stretch ">
             <div class="col-6">

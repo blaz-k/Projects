@@ -35,14 +35,11 @@ class CarAd(db.Model):
     color = db.Column(db.String, unique=False)
     price = db.Column(db.Integer, unique=False)
     image = db.Column(db.String, unique=False)
+    car_model = db.Column(db.String, unique=False)
 
 
 class CarAdInterest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    #ad_id je carad.id
-    #ad_id = CarAd.id
-    #seller id = user.id
-    #seller_id = User.id
     interest_name = db.Column(db.String, unique=False)
     interest_surname = db.Column(db.String, unique=False)
     interest_email = db.Column(db.String, unique=False)
@@ -65,6 +62,25 @@ def about():
         if user:
             return render_template("about.html", user=user)
     return render_template("about.html")
+
+
+@app.route("/ad/<ad_id>", methods=["GET", "POST"])
+def ad(ad_id):
+    if request.method == "GET":
+        ad = db.query(CarAd).get(int(ad_id))
+
+        return render_template("ad.html", ad=ad)
+
+    elif request.method == "POST":
+        interest_name = request.form.get("interest-name")
+        interest_surname = request.form.get("interest-surname")
+        interest_email = request.form.get("interest-email")
+        interest_telephone = request.form.get("interest-telephone")
+
+        new_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
+                                     interest_email=interest_email, interest_telephone=interest_telephone)
+        new_interest.save()
+    return "Your interest has been sent successfully"
 
 
 @app.route("/contact")
@@ -125,7 +141,7 @@ def dashboard_edit_profile():
         user.postal_code = postal_code
         user.email = email
         user.telephone = telephone
-        user.password = password
+        user.password = sha256(password.encode("utf-8")).hexdigest()
         user.repeat = repeat
         user.save()
 
@@ -136,25 +152,6 @@ def dashboard_edit_profile():
 def home():
     ads = db.query(CarAd).all()
     return render_template("index.html", ads=ads)
-
-
-@app.route("/interest/<ad_id>", methods=["GET", "POST"])
-def interest(ad_id):
-    if request.method == "GET":
-        ad = db.query(CarAd).get(int(ad_id))
-
-        return render_template("interest.html", ad=ad)
-
-    elif request.method == "POST":
-        interest_name = request.form.get("interest-name")
-        interest_surname = request.form.get("interest-surname")
-        interest_email = request.form.get("interest-email")
-        interest_telephone = request.form.get("interest-telephone")
-
-        new_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
-                                     interest_email=interest_email, interest_telephone=interest_telephone)
-        new_interest.save()
-    return "Your interest has been sent successfully"
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -218,6 +215,7 @@ def post_car():
         color = request.form.get("color")
         price = request.form.get("price")
         image = request.form.get("image")
+        car_model = request.form.get("car-model")
 
         session_cookie = request.cookies.get("session")
         if session_cookie:
