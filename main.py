@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 from sqla_wrapper import SQLAlchemy
 from hashlib import sha256
 import uuid
+from datetime import datetime
 from sqlalchemy_pagination import paginate
 
 db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://", "postgresql://", 1)
@@ -151,7 +152,14 @@ def dashboard_edit_profile():
 @app.route("/")
 def home():
     ads = db.query(CarAd).all()
+
     return render_template("index.html", ads=ads)
+
+""" date_now = datetime.now()
+  date_year = datetime.year
+  date_month = date_now.month
+  date_day = date_now.strftime("%A")
+  date_posted = str(date_year)"""
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -221,9 +229,9 @@ def post_car():
         if session_cookie:
             user = db.query(User).filter_by(session_token=session_cookie).first()
             if user:
-                new_add = CarAd(username=user.username, brand=brand, date=date, kilometers=kilometers, horsepower=horsepower,
-                                transmission=transmission, email=user.email, telephone=user.phone_number,
-                                color=color, price=price, image=image)
+                new_add = CarAd(username=user.username, brand=brand, date=date, kilometers=kilometers,
+                                horsepower=horsepower, transmission=transmission, email=user.email,
+                                telephone=user.phone_number, color=color, price=price, image=image, car_model=car_model)
                 new_add.save()
 
             return render_template("post-successful.html")
@@ -252,7 +260,7 @@ def registration():
 
         if existing_user:
             return "ERROR: This username already exist! You need to choose something else."
-        else:
+        else: 
             # check if password == repeat
             if password == repeat:
                 # camouflage password

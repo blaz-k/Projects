@@ -1,12 +1,18 @@
 body{
-    background-color: #00CCCC
+    background: #040404 url("../img/db5.jpg") center no-repeat;
+    background-size: cover;
+    height: 100%;
+
 }
 
 .form-registration {
   width: 100%;
   max-width: 330px;
-  padding: 15px;
+  padding: 10px;
   margin: auto;
+}
+h2{
+    color: yellow;
 }
 
 

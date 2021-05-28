@@ -1,42 +1,42 @@
 {% extends "base-log-in.html" %}
 
 {% block link %}
-    <link href="/static/css/registration.css" rel="stylesheet">
+    <link href="/static/css/dashboard-edit.css" rel="stylesheet">
 {% endblock link %}
 
 
 {% block content %}
     <form action="/dashboard/edit-profile" method="post">
-      <main class="form-registration text-center" >
-          <h2>Registration</h2>
-          <div class="form-floating mb-3" >
-            Username: <input type="text" name="username" class="form-control" value="{{user.username}}" placeholder="Username">
-          </div>
-          <div class="form-floating mb-3">
-            First name: <input type="text" name="first-name" class="form-control" value="{{user.first_name}}" placeholder="Firstname">
-          </div>
-          <div class="form-floating mb-3">
-            Last name: <input type="text" name="last-name" class="form-control" value="{{user.last_name}}" placeholder="Last name">
-          </div>
-          <div class="form-floating mb-3">
-            Country: <input type="text" name="country" class="form-control" value="{{user.country}}" placeholder="Country">
-          </div>
-          <div class="form-floating mb-3">
-            Postal code: <input type="number" name="postal-code" class="form-control" value="{{user.postal_code}}" placeholder="Postal code">
-          </div>
-          <div class="form-floating mb-3">
-            Email: <input type="email" name="user-email" class="form-control" value="{{user.email}}" placeholder="Email">
-          </div>
-          <div class="form-floating mb-3">
-            Telephone: <input type="tel" name="telephone" class="form-control" value="{{user.phone_number}}" placeholder="Telephone number">
-          </div>
-          <div class="form-floating mb-3">
-            Password: <input type="password" name="password" class="form-control" placeholder="Password">
-          </div>
-          <div class="form-floating mb-3">
-            Repeat: <input type="password" name="repeat" class="form-control" placeholder="Password">
-          </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+      <main class="form-registration text-center mt-2" >
+          <h1>Edit profile</h1>
+                  <div class="form-floating mb-3" >
+                    <p>Username:</p> <input type="text" name="username" class="form-control" value="{{user.username}}" placeholder="Username">
+                  </div>
+                  <div class="form-floating mb-3">
+                      <p>First name:</p> <input type="text" name="first-name" class="form-control" value="{{user.first_name}}" placeholder="Firstname">
+                  </div>
+                  <div class="form-floating mb-3">
+                      <p>Last name:</p> <input type="text" name="last-name" class="form-control" value="{{user.last_name}}" placeholder="Last name">
+                  </div>
+                  <div class="form-floating mb-3">
+                    <p>Country:</p> <input type="text" name="country" class="form-control" value="{{user.country}}" placeholder="Country">
+                  </div>
+                  <div class="form-floating mb-3">
+                      <p>Postal code:</p> <input type="number" name="postal-code" class="form-control" value="{{user.postal_code}}" placeholder="Postal code">
+                  </div>
+                  <div class="form-floating mb-3">
+                    <p>Email: </p><input type="email" name="user-email" class="form-control" value="{{user.email}}" placeholder="Email">
+                  </div>
+                  <div class="form-floating mb-3">
+                    <p>Telephone:</p> <input type="tel" name="telephone" class="form-control" value="{{user.phone_number}}" placeholder="Telephone number">
+                  </div>
+                  <div class="form-floating mb-3">
+                    <p>Password:</p> <input type="password" name="password" class="form-control" placeholder="Password">
+                  </div>
+                  <div class="form-floating mb-3">
+                    <p>Repeat: </p><input type="password" name="repeat" class="form-control" placeholder="Password">
+                  </div>
+          <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Submit</button>
       </main>
     </form>
 {% endblock content %}

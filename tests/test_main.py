@@ -49,11 +49,12 @@ def test_home_page(client):
     response = client.get("/")
     assert b"homepage" in response.data
 
-
+"""
 # CAR INTEREST TEST:
-def test_interest_page_get(client):
-    response = client.get("/interest")
-    assert b"INTEREST" in response.data
+def test_ad_page_get(client):
+    response = client.get("/ad/<ad_id>")
+    assert b"Email" in response.data
+"""
 
 
 # LOG-IN TESTS:
@@ -84,19 +85,18 @@ def test_post_car_page_get(client):
 
     assert b"I want to sell a car" in response.data
 
-"""
+
 def test_post_car_page_post(client):
     client.post("/registration", data={"username": "b", "password": "b", "repeat": "b"})
     client.post("/login", data={"username": "b", "password": "b", "repeat": "b"})
 
-    client.post("/dashboard/post-car", data={"brand": "ferrari", "date": "25/5/2020", "kilometers": "154", "horsepower": "110",
-                                "transmission": "auto", "email": "b@b.com", "telephone": "123456", "color": "blue",
-                                "price": "123456"},
-                follow_redirects=True)
+    client.post("/dashboard/post-car", data={"brand": "ferrari", "date": "25/5/2020", "kilometers": "154",
+                                             "horsepower": "110", "transmission": "auto", "color": "blue",
+                                             "price": "123456", "car-model": "bla"})
 
-    response = client.get("/dashboard/post-car")
-    assert b"Your post was successful" in response.data
-"""
+    response = client.post("/dashboard/post-car")
+    assert b"Your post was successful!" in response.data
+
 
 # REGISTRATION TESTS:
 def test_registration_page_get(client):

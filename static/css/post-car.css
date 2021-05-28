@@ -1,19 +1,9 @@
 body{
-    background-color: #00CCCC
-}
-
-.form-registration {
-  width: 100%;
-  max-width: 1300px;
-  padding: 15px;
-  margin: auto;
-}
-
-.sub {
-  width: 100%;
-  max-width: 500px;
-  padding: 15px;
-  margin: auto;
+    background: #040404 url("../img/ferrari2.jpg") center no-repeat;
+    background-size: cover;
+    height: 100%;
 
 }
-
+button{
+    max-width: 350px;
+}
