@@ -40,9 +40,9 @@ class CarAd(db.Model):
 class CarAdInterest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     #ad_id je carad.id
-    ad_id = CarAd.id
+    #ad_id = CarAd.id
     #seller id = user.id
-    seller_id = User.id
+    #seller_id = User.id
     interest_name = db.Column(db.String, unique=False)
     interest_surname = db.Column(db.String, unique=False)
     interest_email = db.Column(db.String, unique=False)
@@ -90,7 +90,7 @@ def dashboard():
 
     return render_template("error.html")
 
-"""
+
 @app.route("/dashboard/edit-profile", methods=["GET", "POST"])
 def dashboard_edit_profile():
     session_cookie = request.cookies.get("session")
@@ -130,7 +130,7 @@ def dashboard_edit_profile():
         user.save()
 
         return redirect(url_for("dashboard"))
-"""
+
 
 @app.route("/")
 def home():
