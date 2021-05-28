@@ -1,0 +1,51 @@
+{% extends "base-log-in.html" %}
+
+{% block link %}
+    <link href="/static/css/registration.css" rel="stylesheet">
+{% endblock link %}
+
+
+{% block content %}
+    <form action="/dashboard/edit-profile" method="post">
+      <main class="form-registration text-center" >
+          <h2>Registration</h2>
+          <div class="form-floating mb-3" >
+            <input type="text" name="username" class="form-control" id="floatingUsername" placeholder="Username">
+            <label for="floatingUsername"><strong>{{user.username}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="first-name" class="form-control" id="floatingFirstname" placeholder="Firstname">
+            <label for="floatingFirstname"> <strong>{{user.first_name}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="last-name" class="form-control" id="floatingLastname" placeholder="Last name">
+            <label for="floatingLastname"> <strong>{{user.last_name}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" name="country" class="form-control" id="floatingCountry" placeholder="Country">
+            <label for="floatingCountry"> <strong>{{user.country}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="number" name="postal-code" class="form-control" id="floatingPostal" placeholder="Postal code">
+            <label for="floatingPostal"><strong>{{user.postal_code}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="email" name="user-email" class="form-control" id="floatingEmail" placeholder="Email">
+            <label for="floatingEmail"> <strong>{{user.email}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="tel" name="telephone" class="form-control" id="floatingTelephone" placeholder="Telephone number">
+            <label for="floatingTelephone"> <strong>{{user.telephone}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <label for="floatingPassword"><strong>{{user.password}}</strong></label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="password" name="repeat" class="form-control" id="floatingRepeat" placeholder="Password">
+            <label for="floatingRepeat"> <strong>{{user.repeat}}</strong></label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">Submit</button>
+      </main>
+    </form>
+{% endblock content %}
