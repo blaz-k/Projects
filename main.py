@@ -118,17 +118,17 @@ def dashboard():
     return render_template("error.html")
 
 
-@app.route("/dashboard/ad/<ad_id>", methods=["GET", "POST"])
+@app.route("/dashboard/ad/<ad_id>")
 def my_ads(ad_id):
     ad = db.query(CarAd).get(int(ad_id))
-
+    interests = db.query(CarAdInterest).filter_by(ad_id=ad_id).all()
     session_cookie = request.cookies.get("session")
-
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
-            return render_template("dashboard-my-ads.html", user=user, ad=ad)
-
+            return render_template("dashboard-my-ads.html", user=user, ad=ad, interests=interests)
+    else:
+        return render_template("error.html")
 
 @app.route("/dashboard/edit-profile", methods=["GET", "POST"])
 def dashboard_edit_profile():
