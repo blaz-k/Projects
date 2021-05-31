@@ -170,6 +170,7 @@ def interests():
     #if ad_id==carAd.id: than show intetrests of this user
 
     session_cookie = request.cookies.get("session")
+    ad_id = db.query(CarAdInterest).filter_by(id)
 
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
