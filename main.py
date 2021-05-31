@@ -59,7 +59,7 @@ app = Flask(__name__)
 db.create_all()
 
 
-# in alphabetical order
+# in alphabetical  order
 
 @app.route("/about")
 def about():
@@ -90,8 +90,6 @@ def ad(ad_id):
                                      interest_email=interest_email, interest_telephone=interest_telephone, ad_id=ad.id)
         new_interest.save()
         return render_template("interest-posted.html")
-
-
 @app.route("/contact")
 def contact():
     session_cookie = request.cookies.get("session")

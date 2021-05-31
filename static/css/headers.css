@@ -24,3 +24,9 @@
 .dropdown-toggle {
   outline: 0;
 }
+
+hr {
+    width:70%;
+    border:1px dotted black;
+    margin:0 auto;
+}

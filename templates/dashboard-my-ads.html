@@ -1,38 +1,33 @@
 {% extends "base-log-in.html" %}
-
+{% block link %}
+    <link href="/static/css/my-ads.css" rel="stylesheet">
+{% endblock link %}
 
 {% block content %}
-
-
-<main>
+<div>
+  <img src="{{ad.image}}" class="mt-4" alt="...">
+  <div class="card-body text-center">
+    <h5 class="card-title">Post by: {{ad.username}}</h5>
+    <p class="card-text"><li>Brand: {{ad.brand}}</li> <li>Telephone: {{ad.telephone}}</li></p>
+  </div>
+</div>
+<main class="d-flex p-2 bd-highlight">
   <div class="album py-5 bg-light">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-
-        <div class="col">
-          <div class="card shadow-sm">
-             <a href="/dashboard/ad/{{ ad.id }}"><img src="{{ad.image}}" class="card-img-top" alt="..."></a>
-            <div class="card-body">
-              <p class="card-text"><ul>Post by: {{ad.username}}</ul><li>Brand: {{ad.brand}}</li> <li>Telephone: {{ad.telephone}}</li></p>
-              <div class="d-flex justify-content-between align-items-center">
-                <small class="text-muted"></small>
-              </div>
-            </div>
-          </div>
+{% for interest in interests %}
+        <div class="row mt-4" >
+          <ul><u>Interested person information:</u> </ul>
+            <li>Name: <strong>{{interest.interest_name}}</strong></li>
+            <li>Surname: <strong>{{interest.interest_surname}}</strong></li>
+            <li>Email: <strong>{{interest.interest_email}}</strong></li>
+            <li>Telephone: <strong>{{interest.interest_telephone}}</strong></li>
+          <hr>
         </div>
-
+{% endfor %}
       </div>
     </div>
   </div>
-  {% for interest in interests %}
-        <div class="col">
-          <ul>Interests information: </ul>
-            <li>{{interest.interest_name}}</li>
-            <li>{{interest.interest_surname}}</li>
-            <li>{{interest.interest_email}}</li>
-            <li>{{interest.interest_telephone}}</li>
-       </div>
-  {% endfor %}
 </main>
 
 {% endblock content %}
