@@ -21,6 +21,8 @@ class User(db.Model):
     phone_number = db.Column(db.Integer, unique=True)
     password = db.Column(db.String, unique=False)
     session_token = db.Column(db.String, unique=False)
+    created = db.Column(db.DateTime, default=datetime.now())
+    updated = db.Column(db.DateTime, onupdate=datetime.now())
 
 
 class CarAd(db.Model):
@@ -37,6 +39,8 @@ class CarAd(db.Model):
     price = db.Column(db.Integer, unique=False)
     image = db.Column(db.String, unique=False)
     car_model = db.Column(db.String, unique=False)
+    created = db.Column(db.DateTime, default=datetime.now())
+    updated = db.Column(db.DateTime, onupdate=datetime.now())
 
 
 class CarAdInterest(db.Model):
@@ -46,6 +50,8 @@ class CarAdInterest(db.Model):
     interest_email = db.Column(db.String, unique=False)
     interest_telephone = db.Column(db.Integer, unique=False)
     ad_id = db.Column(db.Integer, unique=False)
+    created = db.Column(db.DateTime, default=datetime.now())
+    updated = db.Column(db.DateTime, onupdate=datetime.now())
 
 
 app = Flask(__name__)
@@ -68,8 +74,9 @@ def about():
 
 @app.route("/ad/<ad_id>", methods=["GET", "POST"])
 def ad(ad_id):
+    ad = db.query(CarAd).get(int(ad_id))
+
     if request.method == "GET":
-        ad = db.query(CarAd).get(int(ad_id))
 
         return render_template("ad.html", ad=ad)
 
@@ -80,9 +87,9 @@ def ad(ad_id):
         interest_telephone = request.form.get("interest-telephone")
 
         new_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
-                                     interest_email=interest_email, interest_telephone=interest_telephone)
+                                     interest_email=interest_email, interest_telephone=interest_telephone, ad_id=ad.id)
         new_interest.save()
-    return render_template("interest-posted.html")
+        return render_template("interest-posted.html")
 
 
 @app.route("/contact")
@@ -104,11 +111,25 @@ def dashboard():
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
-            ads = db.query(CarAd).all()
+            ads = db.query(CarAd).filter_by(username=user.username).all()
 
-            return render_template("dashboard.html", user=user, interests=interests, ads=ads)
+            return render_template("dashboard.html", user=user, ads=ads)
 
     return render_template("error.html")
+
+"""
+@app.route("/dashboard/ad/<ad_id>")
+def my_ads(ad_id):
+    session_cookie = request.cookies.get("session")
+
+    if session_cookie:
+        user = db.query(User).filter_by(session_token=session_cookie).first()
+        if user:
+            ads = db.query(CarAd).filter_by(username=user.username).all()
+
+            return render_template("dashboard.html", user=user, ads=ads)
+"""
+
 
 
 @app.route("/dashboard/edit-profile", methods=["GET", "POST"])
@@ -157,28 +178,6 @@ def home():
     ads = db.query(CarAd).all()
 
     return render_template("index.html", ads=ads)
-
-""" date_now = datetime.now()
-  date_year = datetime.year
-  date_month = date_now.month
-  date_day = date_now.strftime("%A")
-  date_posted = str(date_year)"""
-
-
-@app.route("/dashboard/interests")
-def interests():
-    #if ad_id==carAd.id: than show intetrests of this user
-
-    session_cookie = request.cookies.get("session")
-    ad_id = db.query(CarAdInterest).filter_by(id)
-
-    if session_cookie:
-        user = db.query(User).filter_by(session_token=session_cookie).first()
-        if user:
-            interests = db.query(CarAdInterest).all()
-            return render_template("interests.html", user=user, interests=interests)
-
-    return render_template("interests.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -255,7 +254,7 @@ def post_car():
 
             return render_template("post-successful.html")
         else:
-            return "Something went wrong"
+            return render_template("error_2.html")
 
 
 @app.route("/registration", methods=["GET", "POST"])
