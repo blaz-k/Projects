@@ -1,0 +1,31 @@
+{% extends "base-log-in.html" %}
+
+
+{% block content %}
+
+
+<main>
+
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+
+        <div class="col">
+          <div class="card shadow-sm">
+             <a href="/dashboard/ad/{{ ad.id }}"><img src="{{ad.image}}" class="card-img-top" alt="..."></a>
+            <div class="card-body">
+              <p class="card-text"><ul>Post by: {{ad.username}}</ul><li>Brand: {{ad.brand}}</li> <li>Telephone: {{ad.telephone}}</li></p>
+              <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted"></small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</main>
+
+{% endblock content %}
