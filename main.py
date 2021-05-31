@@ -82,7 +82,7 @@ def ad(ad_id):
         new_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
                                      interest_email=interest_email, interest_telephone=interest_telephone)
         new_interest.save()
-    return "Your interest has been sent successfully"
+    return render_template("interest-posted.html")
 
 
 @app.route("/contact")
@@ -98,13 +98,15 @@ def contact():
 
 @app.route("/dashboard", methods=["GET", "POST"])
 def dashboard():
-    # MORAMO POSLATI VSE INTERESTE KI SE NANASAJO NA UPORABNIKA
+
     session_cookie = request.cookies.get("session")
 
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
-            return render_template("dashboard.html", user=user)
+            ads = db.query(CarAd).all()
+
+            return render_template("dashboard.html", user=user, interests=interests, ads=ads)
 
     return render_template("error.html")
 
@@ -166,6 +168,15 @@ def home():
 @app.route("/dashboard/interests")
 def interests():
     #if ad_id==carAd.id: than show intetrests of this user
+
+    session_cookie = request.cookies.get("session")
+
+    if session_cookie:
+        user = db.query(User).filter_by(session_token=session_cookie).first()
+        if user:
+            interests = db.query(CarAdInterest).all()
+            return render_template("interests.html", user=user, interests=interests)
+
     return render_template("interests.html")
 
 
