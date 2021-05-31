@@ -194,7 +194,7 @@ def login():
             response.set_cookie("session", session_token)
             return response
         else:
-            return "ERROR: Password or username is not correct!"
+            return render_template("error-login.html")
     return redirect(url_for("dashboard"))
 
 
