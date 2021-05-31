@@ -45,6 +45,7 @@ class CarAdInterest(db.Model):
     interest_surname = db.Column(db.String, unique=False)
     interest_email = db.Column(db.String, unique=False)
     interest_telephone = db.Column(db.Integer, unique=False)
+    ad_id = db.Column(db.Integer, unique=False)
 
 
 app = Flask(__name__)
@@ -162,6 +163,12 @@ def home():
   date_posted = str(date_year)"""
 
 
+@app.route("/dashboard/interests")
+def interests():
+    #if ad_id==carAd.id: than show intetrests of this user
+    return render_template("interests.html")
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
@@ -260,7 +267,7 @@ def registration():
 
         if existing_user:
             return "ERROR: This username already exist! You need to choose something else."
-        else: 
+        else:
             # check if password == repeat
             if password == repeat:
                 # camouflage password
