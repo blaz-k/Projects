@@ -21,7 +21,7 @@ class User(db.Model):
     phone_number = db.Column(db.Integer, unique=True)
     password = db.Column(db.String, unique=False)
     session_token = db.Column(db.String, unique=False)
-    created = db.Column(db.DateTime, default=datetime.now())
+    created = db.Column(db.DateTime, default=datetime.now()) 
     updated = db.Column(db.DateTime, onupdate=datetime.now())
 
 
