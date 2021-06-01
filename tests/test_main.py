@@ -47,7 +47,7 @@ def test_dashboard_page_fail(client):
 # HOMEPAGE TEST:
 def test_home_page(client):
     response = client.get("/")
-    assert b"homepage" in response.data
+    assert b"Cars for sale" in response.data
 
 """
 # CAR INTEREST TEST:

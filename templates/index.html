@@ -9,32 +9,28 @@
 
 
 {% block content %}
-<h2>homepage</h2>
-
-<hr>
-
-
 <main>
-
   <section class="py-5 text-center container">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Cars for sale</h1>
-        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
-        <p>
-          <a href="#" class="btn btn-primary my-2">Main call to action</a>
-          <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+        <p class="lead text-muted mt-3">Here you have a collection of all the cars, that need to find new parents</p>
+        <p class="mt-4">
+          <a href="#cars" class="btn btn-primary my-2">Let's start!</a>
+          <a href="/registration" class="btn btn-warning my-2">I'm new here</a>
         </p>
       </div>
     </div>
   </section>
+  <hr>
 
-  <div class="album py-5 bg-light">
+
+  <div class="album py-5 bg-light mt-3">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
 {% for ad in ads %}
-        <div class="col">
+        <div class="col" id="cars">
           <div class="card shadow-sm">
              <a href="/ad/{{ ad.id }}"><img src="{{ad.image}}" class="card-img-top" alt="..."></a>
             <div class="card-body">

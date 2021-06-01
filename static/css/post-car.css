@@ -1,5 +1,5 @@
 body{
-    background: #040404 url("../img/ferrari2.jpg") center no-repeat;
+    background:
     background-size: cover;
     height: 100%;
 
@@ -9,7 +9,7 @@ button{
 }
 
 h1{
-    color: yellow;
+    color: #0d6efd;
     margin: 1em;
     font-weight: bold;
 }

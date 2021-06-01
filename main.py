@@ -21,7 +21,7 @@ class User(db.Model):
     phone_number = db.Column(db.Integer, unique=True)
     password = db.Column(db.String, unique=False)
     session_token = db.Column(db.String, unique=False)
-    created = db.Column(db.DateTime, default=datetime.now()) 
+    created = db.Column(db.DateTime, default=datetime.now())
     updated = db.Column(db.DateTime, onupdate=datetime.now())
 
 
@@ -139,10 +139,10 @@ def dashboard_edit_profile():
         user = db.query(User).filter_by(session_token=session_cookie).first()
 
         if not user:
-            return "You are not logged-in!!!"
+            return render_template("error.html")
 
     else:
-        return "You are not logged in"
+        return render_template("error.html")
 
     if request.method == "GET":
         return render_template("dashboard-edit-profile.html", user=user)

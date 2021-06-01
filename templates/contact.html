@@ -3,3 +3,28 @@
 {% else %}
 {% extends "base.html" %}
 {% endif %}
+
+{% block content %}
+    <div class="text-center ex-body" >
+        <main class="form-signin">
+            <div class="section-title">
+              <h2>Contact us</h2>
+            </div>
+              <hr>
+            <div class="row mt-4">
+              <div class="form-floating mt-4">
+                    <h4>Location:</h4>
+                    <p>Some route, 2<br>1000, Ljubljana</p>
+              </div>
+              <div class="form-floating mt-4">
+                    <h4>Email:</h4>
+                    <p>exo.exo@example.com</p>
+              </div>
+              <div class="form-floating mt-4">
+                    <h4>Call:</h4>
+                    <p>00386 123 456</p>
+              </div>
+            </div>
+        </main>
+    </div>
+{% endblock content %}
