@@ -90,6 +90,8 @@ def ad(ad_id):
                                      interest_email=interest_email, interest_telephone=interest_telephone, ad_id=ad.id)
         new_interest.save()
         return render_template("interest-posted.html")
+
+
 @app.route("/contact")
 def contact():
     session_cookie = request.cookies.get("session")
@@ -127,6 +129,7 @@ def my_ads(ad_id):
             return render_template("dashboard-my-ads.html", user=user, ad=ad, interests=interests)
     else:
         return render_template("error.html")
+
 
 @app.route("/dashboard/edit-profile", methods=["GET", "POST"])
 def dashboard_edit_profile():
