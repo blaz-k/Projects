@@ -171,6 +171,7 @@ def dashboard_edit_profile():
 
         return redirect(url_for("dashboard"))
 
+
 @app.route("/faq")
 def faq():
     session_cookie = request.cookies.get("session")
