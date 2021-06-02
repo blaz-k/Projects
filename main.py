@@ -76,8 +76,9 @@ def about():
 def ad(ad_id):
     ad = db.query(CarAd).get(int(ad_id))
 
-    if request.method == "GET":
 
+    if request.method == "GET":
+  
         return render_template("ad.html", ad=ad)
 
     elif request.method == "POST":
@@ -186,6 +187,12 @@ def faq():
 @app.route("/")
 def home():
     ads = db.query(CarAd).all()
+    session_cookie = request.cookies.get("session")
+
+    if session_cookie:
+        user = db.query(User).filter_by(session_token=session_cookie).first()
+        if user:
+            return render_template("index.html", ads=ads, user=user)
 
     return render_template("index.html", ads=ads)
 
