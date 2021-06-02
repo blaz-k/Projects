@@ -4,15 +4,11 @@
     <link href="/static/css/dashboard.css" rel="stylesheet">
 {% endblock link %}
 
+{% block headline %}Dashboard{% endblock headline %}
+{% block hr %}<hr>{% endblock hr %}
+
 {% block content %}
-
-
-
 <main>
-<div class="text-center container m-4">
-    <h2>Dashboard</h2>
-</div>
-    <hr>
   <div class="album py-5 bg-light mt-4">
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -36,7 +32,4 @@
   </div>
 
 </main>
-
-
-
 {% endblock content %}

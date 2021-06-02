@@ -171,6 +171,10 @@ def dashboard_edit_profile():
 
         return redirect(url_for("dashboard"))
 
+@app.route("/faq")
+def faq():
+    return render_template("faq.html")
+
 
 @app.route("/")
 def home():

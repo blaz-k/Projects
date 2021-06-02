@@ -46,7 +46,12 @@
         </div>
       </div>
     </header>
+
 <div class="container">
+  <div class="text-center container mt-4">
+    <h2>{% block headline %}{% endblock headline %}</h2>
+  </div>
+    {% block hr %}{% endblock hr %}
     {% block content %}
     {% endblock content %}
 </div>

@@ -8,17 +8,16 @@
     <link href="/static/css/post-car.css" rel="stylesheet">
 {% endblock link %}
 
+
+{% block headline %}You want to sell a car? Fill in the form!{% endblock headline %}
+{% block hr %}<hr>{% endblock hr %}
+
+
 {% block content %}
-
-
-
-
-<form action="/dashboard/post-car" method="post" >
+<form action="/dashboard/post-car" method="post">
     <main class="form-registration text-center mt-4" >
-         <h1>You want to sell a car?</h1>
-        <h2>Fill in the form!</h2>
         <div class="row d-flex align-items-stretch">
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <div class="form-floating mb-3" >
                   <input type="text" name="brand" class="form-control" id="floatingUsername" placeholder="Username">
                   <label for="floatingUsername">Brand</label>
@@ -43,7 +42,7 @@
                    <label for="floatingPostal">Transmission (manual/automatic)</label>
                 </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 mt-4">
                 <div class="form-floating mb-3">
                   <input type="text" name="car-model" class="form-control" id="floatingEmail" placeholder="car model">
                   <label for="floatingEmail">Car model</label>
