@@ -75,11 +75,14 @@ def about():
 @app.route("/ad/<ad_id>", methods=["GET", "POST"])
 def ad(ad_id):
     ad = db.query(CarAd).get(int(ad_id))
-
+    session_cookie = request.cookies.get("session")
+    ads = db.query(CarAd).all()
 
     if request.method == "GET":
-  
-        return render_template("ad.html", ad=ad)
+        if session_cookie:
+            user = db.query(User).filter_by(session_token=session_cookie).first()
+            if user:
+                return render_template("ad.html", ad=ad, ads=ads, user=user)
 
     elif request.method == "POST":
         interest_name = request.form.get("interest-name")
