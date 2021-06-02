@@ -1,7 +1,14 @@
+{% if user %}
+{% extends "base-log-in.html" %}
+{% else %}
 {% extends "base.html" %}
+{% endif %}
 
 
-{% block headline %}Frequently Asked Questions{% endblock headline %}
+{% block tittle %}FAQ{% endblock tittle %}
+
+
+{% block headline %}<h2>Frequently Asked Questions</h2>{% endblock headline %}
 {% block hr %}<hr>{% endblock hr %}
 
 {% block content %}
