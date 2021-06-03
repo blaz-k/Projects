@@ -14,17 +14,17 @@
 
 
 {% block content %}
-<form action="/dashboard/post-car" method="post">
-    <main class="form-registration text-center mt-4" >
-        <div class="row d-flex align-items-stretch">
-            <div class="col-6 mt-4">
+<form action="/dashboard/post-car" method="post" >
+    <main class="form-registration text-center mt-4 " >
+        <div class="row d-flex align-items-stretch ">
+            <div class="col-6 mt-4 ">
                 <div class="form-floating mb-3" >
                   <input type="text" name="brand" class="form-control" id="floatingUsername" placeholder="Username" required>
                   <label for="floatingUsername">Brand</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input type="date" name="date" class="form-control" id="floatingFirstname" placeholder="date of manufacture" required>
-                  <label for="floatingFirstname">Date of manufacture</label>
+                  <label for="floatingFirstname">Manufacture date</label>
                 </div>
                 <div class="form-floating mb-3">
                   <input type="number" name="kilometers" class="form-control" id="floatingLastname" placeholder="kilometers" required>
@@ -39,7 +39,7 @@
                       <option selected value="manual">Manual</option>
                       <option value="1">Automatic</option>
                     </select>
-                   <label for="floatingPostal">Transmission (manual/automatic)</label>
+                   <label for="floatingPostal">Transmission</label>
                 </div>
             </div>
             <div class="col-6 mt-4">
@@ -57,10 +57,10 @@
                 </div>
                 <div class="form-floating mb-3">
                   <input type="text" name="image" class="form-control" id="floatingImage" placeholder="Image link" required>
-                  <label for="floatingImage">Image link (copy a >>Direct link<< please)</label>
+                  <label for="floatingImage">Image link (Direct link)</label>
                 </div>
                 <div>
-                   <a href="https://postimages.org/"  target= "_blank"  class="btn btn-secondary my-2">Click here to go on a page for image link</a>
+                   <a href="https://postimages.org/"  target= "_blank"  class="btn btn-secondary my-2">You can upload image here</a>
                 </div>
             </div>
         </div>

@@ -12,6 +12,14 @@
 {% endblock link %}
 
 {% block content %}
+{% if user %}
+<main>
+  <section class="py-1 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light">Cars for sale</h1>
+        <p class="lead text-muted mt-3">Here you have a collection of all the cars, that need to find new parents</p>
+       {% else %}
 <main>
   <section class="py-1 text-center container">
     <div class="row py-lg-5">
@@ -22,6 +30,7 @@
           <a href="#cars" class="btn btn-primary my-2">Let's start!</a>
           <a href="/registration" class="btn btn-warning my-2">I'm new here</a>
         </p>
+          {% endif %}
          <hr>
       </div>
     </div>
