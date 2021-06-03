@@ -94,6 +94,7 @@ def ad(ad_id):
                                      interest_email=interest_email, interest_telephone=interest_telephone, ad_id=ad.id)
         new_interest.save()
         return render_template("interest-posted.html")
+    return "ERROR"
 
 
 @app.route("/contact")
