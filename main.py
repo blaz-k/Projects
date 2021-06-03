@@ -83,6 +83,8 @@ def ad(ad_id):
             user = db.query(User).filter_by(session_token=session_cookie).first()
             if user:
                 return render_template("ad.html", ad=ad, ads=ads, user=user)
+            if not user:
+                return render_template("ad.html", ad=ad, ads=ads)
 
     elif request.method == "POST":
         interest_name = request.form.get("interest-name")

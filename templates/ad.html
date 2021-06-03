@@ -1,4 +1,8 @@
+{% if user %}
+{% extends "base-log-in.html" %}
+{% else %}
 {% extends "base.html" %}
+{% endif %}
 
 {% block title %}INTEREST{% endblock title %}
 
