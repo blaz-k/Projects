@@ -54,6 +54,12 @@ class CarAdInterest(db.Model):
     updated = db.Column(db.DateTime, onupdate=datetime.now())
 
 
+class Questions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    question_name = db.Column(db.String, unique=False)
+    question_text = db.Column(db.String, unique=False)
+
+
 app = Flask(__name__)
 
 db.create_all()
@@ -181,13 +187,14 @@ def dashboard_edit_profile():
 
 @app.route("/faq")
 def faq():
+    questions = db.query(Questions).all()
     session_cookie = request.cookies.get("session")
 
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
-            return render_template("faq.html", user=user)
-    return render_template("faq.html")
+            return render_template("faq.html", user=user, questions=questions)
+    return render_template("faq.html", questions=questions)
 
 
 @app.route("/")
@@ -280,6 +287,34 @@ def post_car():
             return render_template("error_2.html")
 
 
+@app.route("/post-question", methods=["GET", "POST"])
+def post_question():
+    session_cookie = request.cookies.get("session")
+    question_name = request.form.get("question-name")
+    question_text = request.form.get("question-text")
+
+    if request.method == "GET":
+        if session_cookie:
+            user = db.query(User).filter_by(session_token=session_cookie).first()
+            if user:
+                return render_template("post-question.html", user=user)
+            if not user:
+                return render_template("post-question.html")
+
+    elif request.method == "POST":
+        if session_cookie:
+            user = db.query(User).filter_by(session_token=session_cookie).first()
+            if user:
+                new_question = Questions(question_name=question_name, question_text=question_text)
+                new_question.save()
+                return render_template("successful-login.html")
+            if not user:
+                new_question = Questions(question_name=question_name, question_text=question_text)
+                new_question.save()
+                return render_template("post-successful.html")
+    return render_template("error_2.html")
+
+
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     if request.method == "GET":
@@ -313,7 +348,7 @@ def registration():
 
                 return render_template("successful.html")
             else:
-                return "ERROR: Passwords do not match!"
+                return render_template("passwords-not-match.html")
 
     return redirect(url_for("home"))
 

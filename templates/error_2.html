@@ -1,4 +1,8 @@
+{% if user %}
+{% extends "base-log-in.html" %}
+{% else %}
 {% extends "base.html" %}
+{% endif %}
 
 {% block error1 %}
   <h2>ooups, something went wrong</h2>

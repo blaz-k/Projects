@@ -1,0 +1,23 @@
+{% if user %}
+{% extends "base-log-in.html" %}
+{% else %}
+{% extends "base.html" %}
+{% endif %}
+
+{% block title %}POST A QUESTION{% endblock title %}
+
+{% block link %}
+    <link href="/static/css/question.css" rel="stylesheet">
+{% endblock link %}
+
+{% block content %}
+<form action="/post-question" method="post">
+    <div class="position text-center container mb-3 form form1">
+          <label for="exampleFormControlInput1" class="form-label">Your name</label>
+          <input type="text" name="question-name" class="form-control form1 border border-primary" id="exampleFormControlInput1" placeholder="Your name">
+          <label for="exampleFormControlTextarea1" class="form-label mt-4">Message</label>
+          <textarea class="form-control border border-primary" name="question-text" id="exampleFormControlTextarea1" rows="7" placeholder="Write your message here!"></textarea>
+          <button class="w-100 btn btn-lg btn-primary mt-4" type="submit">Submit</button>
+    </div>
+</form>
+{% endblock content %}
