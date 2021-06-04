@@ -19,22 +19,22 @@ def about():
     return render_template("about.html")
 
 
-# kako nardit, ce logiran uporabnik hoce en post s stevilko ki ne obstaja??
 @app.route("/ad/<ad_id>", methods=["GET", "POST"])
 def ad(ad_id):
     ad = db.query(CarAd).get(int(ad_id))
+
     session_cookie = request.cookies.get("session")
+    user = None
+    if session_cookie:
+        user = db.query(User).filter_by(session_token=session_cookie).first()
+
     ads = db.query(CarAd).all()
 
     if request.method == "GET":
         if not ad:
-            return render_template("not-found.html")
-        if session_cookie:
-            user = db.query(User).filter_by(session_token=session_cookie).first()
-            if user:
-                return render_template("ad.html", ad=ad, ads=ads, user=user)
-            if not user:
-                return render_template("ad.html", ad=ad, ads=ads)
+            return render_template("not-found.html", user=user)
+
+        return render_template("ad.html", ad=ad, ads=ads, user=user)
 
     elif request.method == "POST":
         interest_name = request.form.get("interest-name")
@@ -147,7 +147,7 @@ def faq():
         if user:
             return render_template("faq.html", user=user, questions=questions)
     return render_template("faq.html", questions=questions)
-    
+
 
 @app.route("/")
 def home():

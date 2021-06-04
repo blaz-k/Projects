@@ -9,22 +9,21 @@
 
 
 {% block headline %}<h2>Frequently Asked Questions</h2>{% endblock headline %}
-{% block hr %}<hr>{% endblock hr %}
+{% block hr %}<hr class="mb-4">{% endblock hr %}
 
-<!-- !!!!!!!!!!!!!!!ZA UREDITI ODPIRANJE ACCORDIONA !!!!!!!!!!!!!!!!-->
 
 {% block content %}
  <div class="accordion mt-4" id="accordionPanelsStayOpenExample">
      {% for question in questions %}
     <div class="accordion-item">
-      <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-            Question posted by: <strong>{{question.question_name}}</strong>
+      <h2 class="accordion-header" id="panelsStayOpen-headingOne{{question.id}}">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne{{question.id}}" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne{{question.id}}">
+            <strong>{{question.question_text}}?</strong>
         </button>
       </h2>
-      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+      <div id="panelsStayOpen-collapseOne{{question.id}}" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
         <div class="accordion-body">
-          <strong>{{question.question_text}}?</strong>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id interdum velit laoreet id donec ultrices tincidunt. Varius quam quisque id diam vel quam elementum pulvinar.
+          <strong>Question by: {{question.question_name}}-</strong>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Id interdum velit laoreet id donec ultrices tincidunt. Varius quam quisque id diam vel quam elementum pulvinar.
         </div>
       </div>
     </div>

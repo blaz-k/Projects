@@ -43,7 +43,7 @@
     <div class="container">
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-{% for ad in ads %}
+        {% for ad in ads %}
         <div class="col" id="cars">
           <div class="card shadow-sm">
              <a href="/ad/{{ad.id}}"><img src="{{ad.image}}" class="card-img-top" alt="..."></a>
@@ -58,9 +58,7 @@
             </div>
           </div>
         </div>
-{% endfor %}
-
-
+        {% endfor %}
       </div>
     </div>
   </div>
