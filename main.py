@@ -85,6 +85,8 @@ def ad(ad_id):
     ads = db.query(CarAd).all()
 
     if request.method == "GET":
+        if not ad:
+            return render_template("not-found.html")
         if session_cookie:
             user = db.query(User).filter_by(session_token=session_cookie).first()
             if user:
@@ -101,8 +103,13 @@ def ad(ad_id):
         new_interest = CarAdInterest(interest_name=interest_name, interest_surname=interest_surname,
                                      interest_email=interest_email, interest_telephone=interest_telephone, ad_id=ad.id)
         new_interest.save()
-        return render_template("interest-posted.html")
-    return "ERROR"
+        if session_cookie:
+            user = db.query(User).filter_by(session_token=session_cookie).first()
+            if user:
+                return render_template("successful-login.html")
+            if not user:
+                return render_template("interest-posted.html")
+    return render_template("error_2.html")
 
 
 @app.route("/contact")
@@ -282,7 +289,7 @@ def post_car():
                                 telephone=user.phone_number, color=color, price=price, image=image, car_model=car_model)
                 new_add.save()
 
-            return render_template("post-successful.html")
+            return render_template("successful-login.html")
         else:
             return render_template("error_2.html")
 

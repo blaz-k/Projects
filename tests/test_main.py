@@ -4,7 +4,7 @@ import pytest
 # important: this line needs to be set BEFORE the "app" import
 os.environ["DATABASE_URL"] = "sqlite:///:memory:"
 
-from main import app, db, User
+from main import app, db, User, CarAd
 
 
 @pytest.fixture
@@ -28,7 +28,7 @@ def cleanup():
 # ABOUT TESTS:
 def test_about_page(client):
     response = client.get("/about")
-    assert b"about us" in response.data
+    assert b"About us" in response.data
 
 
 # DASHBOARD TESTS:
@@ -49,18 +49,25 @@ def test_home_page(client):
     response = client.get("/")
     assert b"Cars for sale" in response.data
 
-"""
+
 # CAR INTEREST TEST:
 def test_ad_page_get(client):
-    response = client.get("/ad/<ad_id>")
-    assert b"Email" in response.data
-"""
+    client.post("/registration", data={"username": "b", "password": "b", "repeat": "b"})
+    client.post("/login", data={"username": "b", "password": "b"}, follow_redirects=True)
+
+    client.post("/dashboard/post-car", data={"brand": "ferrari", "date": "25/5/2020", "kilometers": "154",
+                                             "horsepower": "110", "transmission": "auto", "color": "blue",
+                                             "price": "123456", "car-model": "bla"})
+
+    car_ad = db.query(CarAd).first()
+    response = client.get("/ad/{}".format(car_ad.id))
+    assert b"Fill in the form" in response.data
 
 
 # LOG-IN TESTS:
 def test_login_page_get(client):
     response = client.get("/login")
-    assert b"Remember me" in response.data
+    assert b"Username" in response.data
 
 
 def test_login_page_post(client):
@@ -70,11 +77,12 @@ def test_login_page_post(client):
     assert b"Dashboard" in response.data
 
 
-# !!!NEVEM KAKO TO NAREDITI!!!
 def test_login_page_post_fail(client):
     response = client.post("/login", data={"username": "nekaj", "password": "novega"})
     assert b"Password or username is not correct" in response.data
-    user = db.query(User).filter_by(username="ne", password="novega").first()
+
+    user = db.query(User).first()
+    assert user is None
 
 
 # POST CAR TESTS
@@ -83,7 +91,7 @@ def test_post_car_page_get(client):
     client.post("/login", data={"username": "b", "password": "b", "repeat": "b"})
     response = client.get("/dashboard/post-car")
 
-    assert b"I want to sell a car" in response.data
+    assert b"You want to sell a car" in response.data
 
 
 def test_post_car_page_post(client):
@@ -96,6 +104,9 @@ def test_post_car_page_post(client):
 
     response = client.post("/dashboard/post-car")
     assert b"Your post was successful!" in response.data
+
+    car_ad = db.query(CarAd).first()
+    assert car_ad is not None
 
 
 # REGISTRATION TESTS:
@@ -115,7 +126,7 @@ def test_registration_page_post(client):
 def test_registration_page_post_fail(client):
     response = client.post("/registration", data={"username": "b", "password": "b", "repeat": "blaz"})
 
-    assert b"Passwords do not match!" in response.data
+    assert b"Passwords do not match" in response.data
 
     user = db.query(User).filter_by(username="b").first()
     assert user is None
