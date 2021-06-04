@@ -1,72 +1,13 @@
-import os
+from models import db, User, CarAd, CarAdInterest, Questions
 from flask import Flask, render_template, request, redirect, url_for, make_response
-from sqla_wrapper import SQLAlchemy
 from hashlib import sha256
 import uuid
-from datetime import datetime
-from sqlalchemy_pagination import paginate
-
-db_url = os.getenv("DATABASE_URL", "sqlite:///db.sqlite").replace("postgres://", "postgresql://", 1)
-db = SQLAlchemy(db_url)
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=True)
-    first_name = db.Column(db.String, unique=False)
-    last_name = db.Column(db.String, unique=False)
-    country = db.Column(db.String, unique=False)
-    postal_code = db.Column(db.Integer, unique=False)
-    email = db.Column(db.String, unique=True)
-    phone_number = db.Column(db.Integer, unique=True)
-    password = db.Column(db.String, unique=False)
-    session_token = db.Column(db.String, unique=False)
-    created = db.Column(db.DateTime, default=datetime.now())
-    updated = db.Column(db.DateTime, onupdate=datetime.now())
-
-
-class CarAd(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, unique=False)
-    brand = db.Column(db.String, unique=False)
-    date = db.Column(db.String, unique=False)
-    kilometers = db.Column(db.Integer, unique=False)
-    horsepower = db.Column(db.Integer, unique=False)
-    transmission = db.Column(db.String, unique=False)
-    email = db.Column(db.String, unique=False)
-    telephone = db.Column(db.Integer, unique=False)
-    color = db.Column(db.String, unique=False)
-    price = db.Column(db.Integer, unique=False)
-    image = db.Column(db.String, unique=False)
-    car_model = db.Column(db.String, unique=False)
-    created = db.Column(db.DateTime, default=datetime.now())
-    updated = db.Column(db.DateTime, onupdate=datetime.now())
-
-
-class CarAdInterest(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    interest_name = db.Column(db.String, unique=False)
-    interest_surname = db.Column(db.String, unique=False)
-    interest_email = db.Column(db.String, unique=False)
-    interest_telephone = db.Column(db.Integer, unique=False)
-    ad_id = db.Column(db.Integer, unique=False)
-    created = db.Column(db.DateTime, default=datetime.now())
-    updated = db.Column(db.DateTime, onupdate=datetime.now())
-
-
-class Questions(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    question_name = db.Column(db.String, unique=False)
-    question_text = db.Column(db.String, unique=False)
-
 
 app = Flask(__name__)
-
 db.create_all()
 
 
 # in alphabetical  order
-
 @app.route("/about")
 def about():
     session_cookie = request.cookies.get("session")
@@ -78,6 +19,7 @@ def about():
     return render_template("about.html")
 
 
+# kako nardit, ce logiran uporabnik hoce en post s stevilko ki ne obstaja??
 @app.route("/ad/<ad_id>", methods=["GET", "POST"])
 def ad(ad_id):
     ad = db.query(CarAd).get(int(ad_id))
@@ -143,6 +85,9 @@ def my_ads(ad_id):
     ad = db.query(CarAd).get(int(ad_id))
     interests = db.query(CarAdInterest).filter_by(ad_id=ad_id).all()
     session_cookie = request.cookies.get("session")
+
+    if not ad:
+        return render_template("not-found-log-in.html")
     if session_cookie:
         user = db.query(User).filter_by(session_token=session_cookie).first()
         if user:
@@ -202,7 +147,7 @@ def faq():
         if user:
             return render_template("faq.html", user=user, questions=questions)
     return render_template("faq.html", questions=questions)
-
+    
 
 @app.route("/")
 def home():
