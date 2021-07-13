@@ -8,7 +8,7 @@ from models.settings import db
 
 def login():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("/auth/login.html")
 
     elif request.method == "POST":
 
@@ -43,7 +43,7 @@ def logout():
 
 def registration():
     if request.method == "GET":
-        return render_template("registration.html")
+        return render_template("/auth/registration.html")
 
     elif request.method == "POST":
 
