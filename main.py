@@ -22,7 +22,6 @@ app.add_url_rule(rule="/post-question", endpoint="public.post_question", view_fu
 
 # DASHBOARD
 app.add_url_rule(rule="/dashboard", endpoint="dashboard.dashboard", view_func=dashboard.dashboard, methods=["GET", "POST"])
-app.add_url_rule(rule="/dashboard", endpoint="dashboard.dashboard", view_func=dashboard.dashboard, methods=["GET", "POST"])
 app.add_url_rule(rule="/dashboard/post-car", endpoint="dashboard.post_car", view_func=dashboard.post_car, methods=["GET", "POST"])
 
 

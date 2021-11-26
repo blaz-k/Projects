@@ -1,6 +1,6 @@
 Flask==1.0.2
 gunicorn==19.9.0
-sqla-wrapper
+sqla-wrapper==4.200628
 pytest~=6.2.4
 sqlalchemy-pagination
 psycopg2
