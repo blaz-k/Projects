@@ -41,4 +41,4 @@ def edit_profile():
         user.repeat = repeat
         user.save()
 
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard.dashboard"))
