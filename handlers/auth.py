@@ -38,7 +38,7 @@ def logout():
     user.session_token = ""
     user.save()
 
-    return redirect(url_for("login"))
+    return redirect(url_for("auth.login"))
 
 
 def registration():
@@ -75,5 +75,5 @@ def registration():
             else:
                 return render_template("passwords-not-match.html")
 
-    return redirect(url_for("home"))
+    return redirect(url_for("public.home"))
 
